@@ -1,14 +1,22 @@
-let calendarGrid = document.querySelector('.Calendar .grid')
+const calendarGrid = document.querySelector('.Calendar .grid')
+const calendarInfo = document.querySelector(('.Calendar .info'))
 
 function daysOfMonth(year, month) {
+    const today = new Date()
+    console.log(today.toLocaleString('default', { month: 'long' }))
     const lastDayOfMonth = new Date(year, month , 0).getDate();
+    const lastDayOfLastMonth = new Date(year, month - 1, 0).getDate();
     for (let i = 1; i < lastDayOfMonth + 1; i++) {
-        const container = document.createElement('div')
         const dateObj = new Date(year, month - 1, i)
+        if (dateObj.getDate() == 1) for (let i = dateObj.getDay(); i > -1; i--) {
+            const lastMonthDayContainer = document.createElement('div');
+            lastMonthDayContainer.textContent = lastDayOfLastMonth - i
+            calendarGrid.append(lastMonthDayContainer)
+        } 
+        const monthDayContainer = document.createElement('div')
         const dayNumber = dateObj.getDate();
-        const dayName = dateObj.toLocaleString('en-us', {weekday:'long'}).substring(0,3)
-        container.append(dayName, dayNumber)
-        calendarGrid.append(container)
+        monthDayContainer.append(dayNumber)
+        calendarGrid.append(monthDayContainer)
     }
 }
-daysOfMonth(2023, 3)
+daysOfMonth(2023, 9)
