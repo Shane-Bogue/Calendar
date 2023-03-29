@@ -1,9 +1,30 @@
+
+function createDiv(names,content) {
+    const div = document.createElement('div')
+    div.classList.add(...names)
+    div.textContent = content
+    return div
+}
+
 class Calendar {
 
     static selected = new Date()
     static day =  this.selected.getDate();
     static month = this.selected.getMonth()
     static year = this.selected.getFullYear()
+    
+    static eventsCustom = []
+
+    static eventsDaily = [
+        [['Free Skate','8am - 11pm']],
+        [['Free Skate','4:15pm - 5pm'],['Adult Skate [18+]','6pm - 11pm']],
+        [['Free Skate','4:15pm - 5pm'],['Adult Skate [18+]','6pm - 11pm']],
+        [['Free Skate','4:15pm - 5pm'],['Adult Skate [18+]',' 6pm - 11pm']],
+        [['Free Skate','4:15pm - 5pm'],['Adult Skate [18+]','6pm - 11pm']],
+        [['Free Skate','4:15pm - 5pm'],['Adult Skate [18+]','6pm - 11pm']],
+        [['Free Skate','8am - 10pm']]
+    ]
+
 
     static Update() {
         this.selected = new Date(this.year,this.month,this.day)
@@ -16,6 +37,8 @@ class Calendar {
         this.day = element.textContent
         Display.Change(Display.calendarDate,`${this.month+1}/${this.day}`)
         if (element.classList.contains('lastMonth')) { this.lastMonth()}
+        this.Update()
+        this.Info()
     }
 
     static nextMonth() {
@@ -46,12 +69,21 @@ class Calendar {
         this.selected = new Date()
     }
 
-    static Generate(year,month) {
-
+    static Info() {
         Display.Change(Display.calendarMonth, this.selected.toLocaleString('default', { month: 'long' }))
         Display.Change(Display.calendarDate, `${this.month+1}/${this.day}`)
         Display.Change(Display.calendarYear, this.year)
-         
+        Display.Change(Display.calendarEvents, '')
+
+        this.eventsDaily[this.selected.getDay()].forEach(events => events.forEach((event, isTime) => {
+            Display.Update()
+            isTime? Display.calendarEvent.append(createDiv(['time'],event)): Display.calendarEvents.append(createDiv(['event'],event))
+        }))
+    }
+
+    static Generate(year,month) {
+        
+        this.Info()
         const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
         const lastDayOfLastMonth = new Date(year, month, 0).getDate();
 
@@ -62,13 +94,6 @@ class Calendar {
                 Display.calendarGrid.append(createDiv(['day','interface','lastMonth'],lastDayOfLastMonth - i))
             
             Display.calendarGrid.append(createDiv(date.getDate()==this.day?['selected','day','interface','Grit']:['day','interface'],date.getDate()))
-        }
-
-        function createDiv(names,content) {
-            const div = document.createElement('div')
-            div.classList.add(...names)
-            div.textContent = content
-            return div
         }
 
         UI.Update()
@@ -98,9 +123,15 @@ class Display {
     static calendarInfo = document.querySelector('.Calendar .info')
     static calendarDate = document.querySelector('.Calendar .date')
     static calendarYear = document.querySelector('.Calendar .year')
+    static calendarEvents = document.querySelector('.Calendar .events')
+    static calendarEvent = document.querySelector('.Calendar .events .event:last-child')
 
     static Change(element,content) {
         element.textContent = content
+    }
+
+    static Update() {
+        this.calendarEvent = document.querySelector('.Calendar .events .event:last-child')
     }
 }
 
