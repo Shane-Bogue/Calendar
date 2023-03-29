@@ -1,3 +1,18 @@
+@font-face {
+    font-family: 'Fox';
+    src: url('/Fonts/FoxAndBower.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Sonora';
+    src: url('/Fonts/Sonorous-Rough.otf') format('opentype');
+}
+
+.Grit {
+    -webkit-mask-image: url("https://ucarecdn.com/9514f9b1-3bf9-4b7c-b31d-9fb8cd6af8bf/");
+    mask-image: url("https://ucarecdn.com/9514f9b1-3bf9-4b7c-b31d-9fb8cd6af8bf/");
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,30 +22,63 @@
 body {
     width: 100vw;
     height: 100vh;
+    display: grid;
+    place-items: center;
+    font-family: 'Fox', sans-serif;
+    background-color: #f9f9f9;
 }
 
 .Calendar {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2fr 3fr;
     margin: auto;
     max-width: 1200px;
+    max-height: 70vh;
+    background-color: white;
+    border-radius: 2rem;
+    overflow: hidden;
 }
 
 .Calendar .info{
-    background-color: gray;
+    background-image: url('calendar.jpg');
+    background-position: center;
+    background-size: cover;
+    opacity: 95%;
 }
 
 .Calendar .grid{
     display: grid;
-    grid-template: auto/ repeat(7,1fr) ;
-    gap: 1vw;
-    padding: 1vw;
+    grid-template: repeat(7,1fr)/ repeat(7,1fr);
+    padding: 1%;
+}
+
+.Calendar .day-name{
+    font-weight: 1000;
+    font-size: 1.1rem;
 }
 
 .Calendar .grid div{
-    width: 100%;
-    height: 100%;
-    padding: 1vw;
-    border-radius: 4px;
-    background-color: white;
+    transition: .5s;
+    display: grid;
+    align-items: center;
+    text-align: center;
+
+}
+
+.Calendar .grid .day{
+    width: 4vw;
+    aspect-ratio: 1 / 1;
+    border-radius: 5rem;
+    transition: .5s;
+    margin: 1vh;
+}
+
+.day:hover {
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+}
+
+.Calendar .grid:has(:hover) .day:not(:hover) {
+    opacity: .5;
 }

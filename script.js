@@ -10,13 +10,15 @@ function daysOfMonth(year, month) {
         const dateObj = new Date(year, month - 1, i)
         if (dateObj.getDate() == 1) for (let i = dateObj.getDay(); i > -1; i--) {
             const lastMonthDayContainer = document.createElement('div');
+            lastMonthDayContainer.className = 'day'
             lastMonthDayContainer.textContent = lastDayOfLastMonth - i
             calendarGrid.append(lastMonthDayContainer)
         } 
         const monthDayContainer = document.createElement('div')
+        monthDayContainer.className = 'day'
         const dayNumber = dateObj.getDate();
         monthDayContainer.append(dayNumber)
         calendarGrid.append(monthDayContainer)
     }
 }
-daysOfMonth(2023, 9)
+daysOfMonth(2023, 8)
