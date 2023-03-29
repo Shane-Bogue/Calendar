@@ -43,42 +43,62 @@ body {
     background-image: url('calendar.jpg');
     background-position: center;
     background-size: cover;
-    opacity: 95%;
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.5rem;
+    padding: 3%;
+}
+
+.lastMonth {
+    background-color: #ababab;
+    opacity: 60%;
 }
 
 .Calendar .grid{
     display: grid;
-    grid-template: repeat(7,1fr)/ repeat(7,1fr);
+    grid-template: repeat(8,1fr)/ repeat(7,1fr);
     padding: 1%;
 }
 
-.Calendar .day-name{
+.Calendar .name{
     font-weight: 1000;
-    font-size: 1.1rem;
+    user-select: none;
 }
 
-.Calendar .grid div{
+.Calendar .grid .day{
+    padding: 1vh;
+    border-radius: 5rem;
+    transition: .5s;
+    margin: 1vh;
     transition: .5s;
     display: grid;
     align-items: center;
     text-align: center;
-
-}
-
-.Calendar .grid .day{
-    width: 4vw;
-    aspect-ratio: 1 / 1;
-    border-radius: 5rem;
-    transition: .5s;
-    margin: 1vh;
 }
 
 .day:hover {
-    cursor: pointer;
     background-color: #333;
     color: white;
 }
 
-.Calendar .grid:has(:hover) .day:not(:hover) {
+.Calendar .grid:has(:hover) .day.interface:not(:hover) {
     opacity: .5;
+}
+
+nav {
+    display: grid;
+    grid-column: 1/-1;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+}
+
+.selected {
+    background-color: #333;
+    color: white;
+}
+
+.interface {
+    cursor: pointer;
+    user-select: none;
 }
