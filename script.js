@@ -12,6 +12,11 @@ class Calendar {
     static day =  this.selected.getDate();
     static month = this.selected.getMonth()
     static year = this.selected.getFullYear()
+
+    static months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
     
     static eventsCustom = []
 
@@ -25,19 +30,13 @@ class Calendar {
         [['Free Skate','8am - 10pm']]
     ]
 
-
-    static Update() {
-        this.selected = new Date(this.year,this.month,this.day)
-    }
-
     static selectDay(element) {
         UI.days.forEach(day => { 
         if (day.classList.contains('selected')) day.classList.remove('selected','Grit')})
         element.classList.add('selected','Grit')
         this.day = element.textContent
-        Display.Change(Display.calendarDate,`${this.month+1}/${this.day}`)
-        if (element.classList.contains('lastMonth')) { this.lastMonth()}
-        this.Update()
+        this.selected = new Date(this.year,this.month,this.day)
+        if (element.classList.contains('lastMonth')) { this.selected = new Date(this.year,this.month-1,this.day); this.lastMonth() }
         this.Info()
     }
 
@@ -49,7 +48,6 @@ class Calendar {
             this.month = 0
             this.year++
         }
-        this.Update()
         Calendar.Generate(this.year, this.month)
     }
 
@@ -61,17 +59,22 @@ class Calendar {
             this.month = 11
             this.year--
         }
-        this.Update()
         Calendar.Generate(this.year, this.month)
     }
 
     static Reset()  {
         this.selected = new Date()
+        this.day =  this.selected.getDate();
+        this.month = this.selected.getMonth()
+        this.year = this.selected.getFullYear()
+        UI.Update()
+        UI.days.forEach(day => day.remove())
+        this.Generate(this.year, this.month)
     }
 
     static Info() {
-        Display.Change(Display.calendarMonth, this.selected.toLocaleString('default', { month: 'long' }))
-        Display.Change(Display.calendarDate, `${this.month+1}/${this.day}`)
+        Display.Change(Display.calendarMonth, this.months[this.month])
+        Display.Change(Display.calendarDate, `${this.months[this.selected.getMonth()]} ${this.selected.getDate()}${["st","nd","rd"][((this.selected.getDate()+90)%100-10)%10-1]||"th"}`)
         Display.Change(Display.calendarYear, this.year)
         Display.Change(Display.calendarEvents, '')
 
@@ -93,7 +96,7 @@ class Calendar {
             if (date.getDate() == 1) for (let i = date.getDay() - 1; i > -1; i--)
                 Display.calendarGrid.append(createDiv(['day','interface','lastMonth'],lastDayOfLastMonth - i))
             
-            Display.calendarGrid.append(createDiv(date.getDate()==this.day?['selected','day','interface','Grit']:['day','interface'],date.getDate()))
+            Display.calendarGrid.append(createDiv(date.setHours(0,0,0,0)==this.selected.setHours(0,0,0,0)?['selected','day','interface','Grit']:['day','interface'],date.getDate()))
         }
 
         UI.Update()
@@ -105,15 +108,17 @@ class UI {
     static calendarMonthRight = document.querySelector('.Calendar .right.interface')
     static calendarMonthLeft = document.querySelector('.Calendar .left.interface')
     static days = document.querySelectorAll('.Calendar .day.interface')
+    static reset = document.querySelector('.Calendar .reset.interface')
 
     static Initialize() {
-        UI.calendarMonthLeft.addEventListener('click', () => Calendar.lastMonth())
-        UI.calendarMonthRight.addEventListener('click', () => Calendar.nextMonth())
+        this.calendarMonthLeft.addEventListener('click', () => Calendar.lastMonth())
+        this.calendarMonthRight.addEventListener('click', () => Calendar.nextMonth())
+        this.reset.addEventListener('click', () => Calendar.Reset())
     }
 
     static Update() {
         this.days = document.querySelectorAll('.Calendar .day.interface')
-        UI.days.forEach(day => day.addEventListener('click', () => Calendar.selectDay(day)))
+        this.days.forEach(day => day.addEventListener('click', () => Calendar.selectDay(day)))
     }
 }
 
