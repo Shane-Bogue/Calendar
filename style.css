@@ -28,7 +28,7 @@ body {
     background-color: #f9f9f9;
 }
 
-.Calendar {
+.Schedule {
     display: grid;
     grid-template-columns: 2fr 3fr;
     margin: auto;
@@ -37,67 +37,112 @@ body {
     background-color: white;
     border-radius: 2rem;
     overflow: hidden;
+    
 }
 
-.Calendar .info{
-    background-image: url('calendar.jpg');
+.Schedule .info{
+    background-image: url('cal.png');
     background-position: center;
     background-size: cover;
     position: relative;
+    text-shadow:
+    1px 1px 0 #000,
+    -1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    0px 1px 0 #000,
+    0px -1px 0 #000,
+    -1px 0px 0 #000,
+    1px 0px 0 #000,
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000,
+    0px 2px 0 #000,
+    0px -2px 0 #000,
+    -2px 0px 0 #000,
+    2px 0px 0 #000,
+    1px 2px 0 #000,
+    -1px 2px 0 #000,
+    1px -2px 0 #000,
+    -1px -2px 0 #000,
+    2px 1px 0 #000,
+    -2px 1px 0 #000,
+    2px -1px 0 #000,
+    -2px -1px 0 #000;
 }
 
-.Calendar .dates{
+.Schedule .dates{
     position: relative;
     display: flex;
     justify-content: space-between;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 1);
     font-size: 1.15rem;
     padding: 3%;
     padding-left: 5%;
     z-index: 3;
 }
 
-.Calendar .events{
-    height: 75%;
+.Schedule .events{
+    color: white;
+    font-size: 150%;
+    position: relative;
+    text-align: center;
+    z-index: 3;
+}
+
+.Schedule .event-flex {
+    height: 80%;
     display: flex;
     flex-direction: column ;
     justify-content: center;
     position: relative;
     text-align: center;
-    color: white;
-    font-size: 150%;
     z-index: 3;
 }
 
-.Calendar .event{
+.Schedule .event{
     padding-block: 2vh;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.Calendar .time{
+.Schedule .time{
     position: relative;
     color: white;
     font-size: 50%;
     margin-inline: 1vw;
     z-index: 3;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
-.lastMonth {
+.Schedule .hero{
+    position: relative;
+    color: white;
+    font-size: 2rem;
+    margin-inline: 1vw;
+    z-index: 3;
+    text-align: center;
+    margin-block-end: 2vh;
+}
+
+.Schedule .lastMonth {
     background-color: #ababab;
     opacity: 60%;
 }
 
-.Calendar .grid{
+.Schedule .grid{
     display: grid;
     grid-template: repeat(8,1fr)/ repeat(7,1fr);
     padding: 1%;
 }
 
-.Calendar .name{
+.Schedule .name{
     font-weight: 1000;
     user-select: none;
 }
 
-.Calendar .grid .day{
+.Schedule .grid .day{
     padding: 1vh;
     border-radius: 5rem;
     transition: .5s;
@@ -108,61 +153,74 @@ body {
     text-align: center;
 }
 
-.day:hover {
+.Schedule .day.interface:hover {
     background-color: #333;
     color: white;
 }
 
-.Calendar .grid:has(:hover) .day.interface:not(:hover) {
+.Schedule .grid:has(:hover) .day.interface:not(:hover,.selected) {
     opacity: .5;
 }
 
-nav {
+.Schedule nav {
     display: grid;
     grid-column: 1/-1;
     grid-template-columns: 1fr 1fr 1fr;
     place-items: center;
+    font-size: 1.5rem;
 }
 
-.selected {
+.Schedule .selected {
     background-color: #333;
     color: white;
+    text-shadow:
+    1px 1px 0 #000,
+    -1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    0px 1px 0 #000,
+    0px -1px 0 #000,
+    -1px 0px 0 #000,
+    1px 0px 0 #000,
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000,
+    0px 2px 0 #000,
+    0px -2px 0 #000,
+    -2px 0px 0 #000,
+    2px 0px 0 #000,
+    1px 2px 0 #000,
+    -1px 2px 0 #000,
+    1px -2px 0 #000,
+    -1px -2px 0 #000,
+    2px 1px 0 #000,
+    -2px 1px 0 #000,
+    2px -1px 0 #000,
+    -2px -1px 0 #000;
 }
 
-.interface {
+.Schedule .interface {
     cursor: pointer;
     user-select: none;
 }
 
-.🔳 {  /*  */
-    /* Format*/
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    /* Style*/
-    background-image: linear-gradient(90deg,rgba(0,0,0,.9),rgba(100, 100, 100, 0.2));
-    z-index: 2;
-}
-
-
-.reset {
+.Schedule .reset {
     position: relative;
     border: white solid 1px;
     border-radius: 4px;
     padding: .3rem;
-    padding-inline-start: .5vw;
+    padding-inline-start: .5rem;
     margin-inline-start: -1vh;
     font-size: .6rem;
     color: white;
     z-index: 3;
-    opacity: 70%;
+    opacity: 80%;
     transition: 1s;
     height: min-content;
     border-top-left-radius: 1rem;
 }
 
-.reset:hover {
+.Schedule .reset:hover {
     opacity: 100%;
 }
